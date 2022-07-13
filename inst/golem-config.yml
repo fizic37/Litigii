@@ -2,6 +2,11 @@ default:
   golem_name: Litigii
   golem_version: 0.0.0.9000
   app_prod: no
+  database:
+    password: "marius.tita"
+    username: "marius.tita"
+    dbname: "employees"
+    host: "192.168.0.12"
 production:
   app_prod: yes
 dev:
