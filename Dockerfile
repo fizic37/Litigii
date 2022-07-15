@@ -30,6 +30,7 @@ RUN mkdir /build_zone
 ADD . /build_zone
 WORKDIR /build_zone
 RUN (crontab -l ; echo "0 2 * * * Rscript /inst/extdata/script_actualizare_sentinte.R  >> /var/log/cron.log") | crontab
+CMD cron
 RUN R -e 'renv::install("remotes");remotes::install_local(upgrade="never")'
 #RUN rm -rf /build_zone
 EXPOSE 80
