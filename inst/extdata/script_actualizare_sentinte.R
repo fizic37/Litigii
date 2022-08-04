@@ -1,6 +1,8 @@
 library(rebus)
 library(magrittr)
 
+options(echo = TRUE)
+
 tryCatch(expr = {
 
 #setwd("C:/Marius Tita/OLD/marius/backup 27.11.2007/my doc/Directia administr. riscuri/Analize Risc/Web Plafon R/Risk applications/LitiigiiDatabase")
@@ -8,10 +10,10 @@ tryCatch(expr = {
 
   logs <- readRDS("R/logs/logs.rds")
 
-  dosare_noi_start_date <- Sys.Date()-2
+  dosare_noi_start_date <- as.Date("2022-07-15")#Sys.Date()-2
 
 
-  dosare_noi_stop_date <- Sys.Date()-1
+  dosare_noi_stop_date <- Sys.Date()
 
 db <- config::get("database", file = "inst/golem-config.yml")
 
