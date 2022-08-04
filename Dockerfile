@@ -32,7 +32,6 @@ ADD . /build_zone
 WORKDIR /build_zone
 RUN R -e 'renv::install("remotes");remotes::install_local(upgrade="never")'
 RUN cron start
-RUN Rscript -e 'cronR::cron_add(cronR::cron_rscript("/inst/extdata/script_actualizare_sentinte.R"), frequency = "daily", at = "2AM",
-id = "job1", description = "Update sentinte", YOUR_PROJECT_XYZ = getwd()), ask = FALSE, dry_run = TRUE)'
+RUN Rscript -e 'cronR::cron_add(cronR::cron_rscript("/inst/extdata/script_actualizare_sentinte.R"), frequency = "daily", at = "2AM",id = "job1", description = "Update sentinte", YOUR_PROJECT_XYZ = getwd()), ask = FALSE, dry_run = TRUE)'
 EXPOSE 80
 CMD R -e "options('shiny.port'=80,shiny.host='0.0.0.0');Litigii::run_app()"
