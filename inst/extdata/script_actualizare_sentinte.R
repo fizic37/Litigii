@@ -10,7 +10,7 @@ tryCatch(expr = {
 
   logs <- readRDS("R/logs/logs.rds")
 
-  dosare_noi_start_date <- as.Date("2022-07-15")#Sys.Date()-2
+  dosare_noi_start_date <- Sys.Date()-2
 
 
   dosare_noi_stop_date <- Sys.Date()
