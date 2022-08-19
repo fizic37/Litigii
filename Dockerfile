@@ -26,12 +26,13 @@ RUN Rscript -e 'remotes::install_version("gfonts",upgrade="never", version = "0.
 RUN Rscript -e 'remotes::install_version("DT",upgrade="never", version = "0.19")'
 RUN Rscript -e 'remotes::install_version("dbplyr",upgrade="never", version = "2.1.1")'
 RUN Rscript -e 'remotes::install_version("bs4Dash",upgrade="never", version = "2.1.0")'
-#RUN Rscript -e 'remotes::install_version("cronR",upgrade="never", version = "0.6.2")'
 RUN mkdir /build_zone
 ADD . /build_zone
 WORKDIR /build_zone
 RUN R -e 'renv::install("remotes");remotes::install_local(upgrade="never")'
-RUN cron start
-RUN Rscript -e 'remotes::install_version("cronR",upgrade="never", version = "0.6.2");cronR::cron_add(cronR::cron_rscript("inst/extdata/script_actualizare_sentinte.R"), frequency = "daily", at = "2AM",id = "job1", description = "Update sentinte", ask = FALSE, dry_run = FALSE)'
+RUN touch /var/log/cron.log
+COPY inst/extdata/script_actualizare_sentinte.R /update_sentinte.r
+RUN (crontab -l ; echo "0 2 * * * Rscript /update_sentinte.r  >> /var/log/cron.log") | crontab
+CMD cron && tail -f /var/log/cron.log
 EXPOSE 80
 CMD R -e "options('shiny.port'=80,shiny.host='0.0.0.0');Litigii::run_app()"
