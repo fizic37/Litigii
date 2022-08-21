@@ -28,10 +28,11 @@ RUN Rscript -e 'remotes::install_version("dbplyr",upgrade="never", version = "2.
 RUN Rscript -e 'remotes::install_version("bs4Dash",upgrade="never", version = "2.1.0")'
 RUN mkdir /build_zone
 ADD . /build_zone
+RUN touch /var/log/cron.log
+RUN (crontab -l ; echo "0 2 * * * Rscript /build_zone/inst/extdata/script_actualizare_sentinte.R  >> /var/log/cron.log") | crontab
 WORKDIR /build_zone
 RUN R -e 'renv::install("remotes");remotes::install_local(upgrade="never")'
 EXPOSE 80
 CMD R -e "options('shiny.port'=80,shiny.host='0.0.0.0');Litigii::run_app()"
-RUN touch /var/log/cron.log
-RUN (crontab -l ; echo "0 2 * * * Rscript /build_zone/inst/extdata/script_actualizare_sentinte.R  >> /var/log/cron.log") | crontab
+
 CMD cron && tail -f /var/log/cron.log
