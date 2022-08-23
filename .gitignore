@@ -2,6 +2,7 @@
 .Rproj.user/
 .RData
 R/reactivedata/
+R/credentials/
 *.docx
 *.xlsx
 *.csv
