@@ -14,7 +14,7 @@ mod_admin_ui <- function(id){
 
   bs4Dash::tabsetPanel(  id = ns("admin"),
     selected = T,  shinyjs::useShinyjs(),
-    shiny::tabPanel( title = "Logs", value = ns("logs"), icon = icon("clipboard-list"), br(),
+    shiny::tabPanel( title = "Logs", value = "logs", icon = icon("clipboard-list"), br(),
       fluidRow(
         column(
           width = 6,
@@ -37,8 +37,7 @@ mod_admin_ui <- function(id){
         column(width = 12, DT::dataTableOutput(ns("logs")))
       )
     ),
-     shiny::tabPanel( title = "Test",
-                     DT::dataTableOutput(ns("test")) ),
+
 
     shiny::tabPanel( title = "Contracte-Beneficiari",
       value = "contracte",    icon = icon("file-contract"),    br(),
@@ -87,11 +86,10 @@ mod_admin_server <- function(id){
 
       vals_admin <- reactiveValues(bi_contracte = bi_contracte,bi_contracte_snpashot = bi_contracte_snpashot )
 
-      updateTabsetPanel(session = session, inputId = 'admin',selected = "logs")
+      updateTabsetPanel( session = session, inputId = 'admin', selected = "logs" )
 
       shinyWidgets::updateAirDateInput(session = session,inputId = "logs_date",value = max(logs$timestamp, na.rm = TRUE))
 
-      output$test <- DT::renderDataTable(dt_generate_function(df = readr::read_csv("test.csv")))
 
       observeEvent(vals_admin$bi_contracte, { req(vals_admin$bi_contracte_snpashot)
 
